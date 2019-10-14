@@ -1,0 +1,21 @@
+{
+  "name": "bj",
+  "description": "test",
+  "main": "",
+  "authors": [
+    "httpshhnik <httpshhnik@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/httpshhnik/bj",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "datatables.net": "^1.10.20",
+    "datatables.net-dt": "^3.2.2"
+  }
+}

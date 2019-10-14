@@ -1,17 +1,20 @@
 <?php
 namespace BJ\Core;
 
-use BJ\Controller\TaskBook;
+use BJ\Controller\TaskList;
+use BJ\Controller\UserController;
 
 class Router
 {
 	static function start()
 	{
 		// контроллер и действие по умолчанию
-		$controller_name = 'TaskBook';
-		$action_name = 'index';
+		$base = "BJ\\Controller\\";
+		// $file = getcwd()."/src/Controller/";
+		$controller_name = $base."TaskList";
+		$action = "index";
 		
-		$routes = explode('/', $_SERVER['REQUEST_URI']);
+		$routes = explode("/", $_SERVER["REQUEST_URI"]);
 
 		// получаем имя контроллера
 		if ( !empty($routes[1]) )
@@ -22,36 +25,41 @@ class Router
 		// получаем имя экшена
 		if ( !empty($routes[2]) )
 		{
-			$action_name = $routes[2];
+			$action = $routes[2]; 
 		}
 
 		// создаем контроллер
-		try{
+		if(class_exists($controller_name))
 			$controller = new $controller_name;
-		}catch(Exception $exp){//wtf not catching
-			error_log("Controller missing ".$controller);
-			Route::ErrorPage404();//разумнее было бы кинуть исключение
+		else{
+			try{
+				
+				switch($controller_name){
+					case 'login': (new \BJ\Controller\UserController())->login(); return;
+					case 'TaskList': (new \BJ\Controller\TaskList())->index($action); return;
+					default: die("custom 404 for ".$controller_name); Route::ErrorPage404();
+				}
+			}catch(Exception $ex){
+				error_log($ex->getMessage());
+			}
 		}
 		
-		if(method_exists($controller, $action_name))
+		if(method_exists($controller, $action))
 		{
 			// вызываем действие контроллера
-			$controller->$action_name();
+			$controller->$action();
 		}
 		else
 		{
-			error_log("Action missing".$action_name);
-			// здесь также разумнее было бы кинуть исключение
-			Router::ErrorPage404();
+			$controller->index($action);
 		}
 	
 	}
 	
 	function ErrorPage404()
 	{
-        $host = 'http://'.$_SERVER['HTTP_HOST'].'/';
-        header('HTTP/1.1 404 Not Found');
+        $host = "http://".$_SERVER["HTTP_HOST"]."/";
+        header("HTTP/1.1 404 Not Found");
 		header("Status: 404 Not Found");
-		header('Location:'.$host.'404');
     }
 }

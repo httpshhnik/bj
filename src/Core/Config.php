@@ -1,19 +1,18 @@
 <?php
 namespace BJ\Core;
 
-use \Smarty;
-
 class Config{
     static function init(){
         //возможно лучше было бы перенести конфиги в обычный безклассовый файл config.php
-        define('db_host','localhost');
-        define('db_user','user');
-        define('db_pwd','123');
+        define('DB_HOST','localhost');
+        define('DB_USER','user');
+        define('DB_PWD','123');
+        define('DB_BASE','bj');
 
-        define('user','admin');
-        define('pwd','123');
+        define('USER','admin');
+        define('PWD','123');
 
-        $smarty = new Smarty();
-        $smarty->setTemplateDir('src/view'); 
+        define('SMARTY_TEMPLATE_DIR',getcwd().'/src/View');
+        define('SMARTY_CACHE_DIR',getcwd().'/cache');
     }
 }
