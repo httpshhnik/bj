@@ -14,7 +14,7 @@
     "gulp-rimraf": "^1.0.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2",
-    "jquery": "^1.9.1",
+    "jquery": "^3.5.0",
     "plumber": "^0.4.8",
     "popper.js": "^1.15.0"
   },
